@@ -1,3 +1,4 @@
+import { EMBED_HINT, isEmbedded } from '@/lib/embed';
 import {
   BLOCK,
   CLAP_WORKLET_SOURCE,
@@ -36,7 +37,12 @@ export function micErrorFrom(err: unknown): MicError {
   switch (name) {
     case 'NotAllowedError':
     case 'PermissionDeniedError':
-      return new MicError('denied', 'Akses mikrofon ditolak. Benarkan mikrofon melalui ikon kunci/kamera di bar alamat pelayar, kemudian tekan "Cuba Lagi".');
+      return new MicError(
+        'denied',
+        isEmbedded()
+          ? `Mikrofon disekat. ${EMBED_HINT}`
+          : 'Akses mikrofon ditolak. Benarkan mikrofon melalui ikon kunci/kamera di bar alamat pelayar, kemudian tekan "Cuba Lagi".',
+      );
     case 'NotFoundError':
     case 'DevicesNotFoundError':
       return new MicError('notfound', 'Tiada mikrofon ditemui pada peranti ini. Sambungkan mikrofon atau gunakan peranti lain.');

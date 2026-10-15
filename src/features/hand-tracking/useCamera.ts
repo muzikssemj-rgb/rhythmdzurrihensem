@@ -1,3 +1,4 @@
+import { EMBED_HINT, isEmbedded } from '@/lib/embed';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export type CameraStatus = 'off' | 'starting' | 'on' | 'error';
@@ -8,7 +9,9 @@ export function cameraErrorMessage(err: unknown): string {
   switch (name) {
     case 'NotAllowedError':
     case 'PermissionDeniedError':
-      return 'Akses kamera ditolak. Benarkan kamera melalui tetapan pelayar, kemudian cuba lagi. Latihan mikrofon masih boleh diteruskan.';
+      return isEmbedded()
+        ? `Kamera disekat. ${EMBED_HINT}`
+        : 'Akses kamera ditolak. Benarkan kamera melalui tetapan pelayar, kemudian cuba lagi. Latihan mikrofon masih boleh diteruskan.';
     case 'NotFoundError':
     case 'OverconstrainedError':
       return 'Tiada kamera ditemui pada peranti ini. Anda masih boleh berlatih menggunakan mikrofon sahaja.';

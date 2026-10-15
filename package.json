@@ -1,5 +1,5 @@
 {
-  "name": "rhythm-master-ar",
+  "name": "rhythm-dzurri-ar",
   "private": true,
   "version": "1.0.0",
   "description": "RHYTHM MASTER AR \u2014 Baca. Dengar. Tepuk. Kuasai Irama. Aplikasi gamifikasi latihan pola irama dengan mikrofon, kamera dan AR.",
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "vite",
-       "build": "vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
     "test": "vitest run",

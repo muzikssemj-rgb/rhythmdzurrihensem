@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { AlertTriangle, Hand, Loader2, Mic, MicOff, SlidersHorizontal, Sparkles } from 'lucide-react';
+import { AlertTriangle, ExternalLink, Hand, Loader2, Mic, MicOff, SlidersHorizontal, Sparkles } from 'lucide-react';
 import { useApp } from '@/app/AppStore';
 import { useClapDetection, useMicLevel, useOnClap } from './useClapDetection';
 import { CalibrationWizard } from './CalibrationWizard';
 import { Modal, Notice } from '@/components/ui';
+import { isEmbedded, openInNewTab } from '@/lib/embed';
 
 /** Meter aras mikrofon (jalur tinggi) dengan penanda ambang. */
 export function MicMeter({ level, threshold }: { level: number; threshold: number | null }) {
@@ -48,7 +49,12 @@ export function MicPanel({ onDemo, compact = false }: { onDemo?: () => void; com
       <Notice tone="error" icon={<AlertTriangle size={18} />}>
         <b>Mikrofon tidak dapat digunakan.</b> {mic.error.message}
         <div className="mt-3 flex flex-wrap gap-2">
-          <button className="btn-primary !min-h-10 !py-2" onClick={() => void mic.request()}>
+          {isEmbedded() && (
+            <button className="btn-primary !min-h-10 !py-2" onClick={openInNewTab}>
+              <ExternalLink size={16} /> Buka dalam Tab Baharu
+            </button>
+          )}
+          <button className={isEmbedded() ? 'btn-ghost !min-h-10 !py-2' : 'btn-primary !min-h-10 !py-2'} onClick={() => void mic.request()}>
             Cuba Lagi
           </button>
           {onDemo && (

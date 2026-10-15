@@ -5,6 +5,7 @@ import { useApp } from '@/app/AppStore';
 import { barCapacity, meterLabel } from '@/lib/rhythm';
 import { RhythmNotation } from '@/components/RhythmNotation';
 import { Notice } from '@/components/ui';
+import { isEmbedded, openInNewTab } from '@/lib/embed';
 import { useCamera } from '@/features/hand-tracking/useCamera';
 import { useHandTracking } from '@/features/hand-tracking/useHandTracking';
 import { useClapDetection } from '@/features/audio-engine/useClapDetection';
@@ -213,7 +214,13 @@ export default function ArenaPage() {
             {session.error && <Notice tone="error">{session.error}</Notice>}
             {noCamera && cam.status !== 'on' && !session.active && (
               <Notice tone="warn" icon={<CameraOff size={16} />}>
-                {cam.error ?? 'Kamera dimatikan.'} Mod visual alternatif tanpa kamera sedang digunakan — latihan tetap dinilai melalui mikrofon.
+                {cam.error ?? 'Kamera dimatikan.'}{' '}
+                {isEmbedded() && (
+                  <button className="underline font-bold" onClick={openInNewTab}>
+                    Buka dalam Tab Baharu.
+                  </button>
+                )}{' '}
+                Mod visual alternatif tanpa kamera sedang digunakan — latihan tetap dinilai melalui mikrofon.
               </Notice>
             )}
             {track.error && cam.status === 'on' && <Notice tone="warn">{track.error}</Notice>}
@@ -223,6 +230,15 @@ export default function ArenaPage() {
                 <button className="underline font-bold" onClick={() => void mic.request()}>
                   Cuba Lagi
                 </button>
+                {isEmbedded() && (
+                  <>
+                    {' '}
+                    •{' '}
+                    <button className="underline font-bold" onClick={openInNewTab}>
+                      Buka dalam Tab Baharu
+                    </button>
+                  </>
+                )}
               </Notice>
             )}
             <div className="rounded-3xl bg-ink-950/70 backdrop-blur-md border border-white/10 p-3">
